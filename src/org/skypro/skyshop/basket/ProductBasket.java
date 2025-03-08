@@ -7,51 +7,56 @@ import java.util.Objects;
 public class ProductBasket {
     private Product[] productBasket = new Product[5];
 
-    public void addProduct (Product product){
+    public void addProduct(Product product) {
 
-        for (int i = 0; i < productBasket.length; i++){
-            if (productBasket[i] == null){
+        for (int i = 0; i < productBasket.length; i++) {
+            if (productBasket[i] == null) {
                 productBasket[i] = product;
                 product = null;
                 break;
             }
         }
-        if (product != null){
+        if (product != null) {
             System.out.println("Невозможно добавить продукт");
         }
 
     }
 
-    public int getPlaceBasket(){
+    public int getPlaceBasket() {
         int price = 0;
-        for (Product place: productBasket){
-            if (place != null){
+        for (Product place : productBasket) {
+            if (place != null) {
                 price += place.getPrice();
             }
         }
         return price;
     }
 
-    public void printBasket (){
+    public void printBasket() {
         boolean basketVacous = true;
-        for (Product product: productBasket){
-            if (product != null){
+        byte allIsSpecial = 0;
+        for (Product product : productBasket) {
+            if (product != null) {
                 basketVacous = false;
                 System.out.println(product.toString());
+                if (product.isSpecial()) {
+                    allIsSpecial++;
+                }
             }
         }
-        if (basketVacous){
+        if (basketVacous) {
             System.out.println("в корзине пусто");
-        }else{
-            System.out.println("Итого: "+getPlaceBasket());
+        } else {
+            System.out.println("Итого: " + getPlaceBasket());
+            System.out.println("Специальных товаров: " + allIsSpecial);
         }
     }
 
-    public boolean productSearch (String name){
+    public boolean productSearch(String name) {
         boolean availability = false;
-        for (Product product: productBasket){
-            if (product != null){
-                if (Objects.equals(product.getName(), name)){
+        for (Product product : productBasket) {
+            if (product != null) {
+                if (Objects.equals(product.getName(), name)) {
                     availability = true;
                 }
             }
@@ -59,7 +64,7 @@ public class ProductBasket {
         return availability;
     }
 
-    public void basketClear(){
+    public void basketClear() {
         productBasket = new Product[5];
     }
 }
