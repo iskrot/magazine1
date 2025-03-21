@@ -4,8 +4,12 @@ public class DiscountedProduct extends Product {
     private int price;
     private byte discounted;
 
-    public DiscountedProduct(String name, int price, byte discounted) {
+    public DiscountedProduct(String name, int price, byte discounted) throws Exception {
         super(name);
+        if (price <= 0) {throw new IllegalArgumentException("Цена продукта должна быть больше нуля.");}
+
+        if (0 > discounted | discounted > 100) {throw new IllegalArgumentException("Скидка должна быть в диапазоне от 0 до 100.");}
+
         this.price = price;
         this.discounted = discounted;
     }

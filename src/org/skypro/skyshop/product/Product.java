@@ -4,12 +4,18 @@ public abstract class Product implements Searchable{
     String name;
     String type = "PRODUCT";
 
-    public Product(String name){
+    public Product(String name) throws Exception {
+        if (name == null){
+            throw new IllegalArgumentException("У продукта должно быть имя.");
+        }
+        else if (name.isBlank()){
+            throw new IllegalArgumentException("Имя продукта не может состоять из пробелов.");
+        }
         this.name = name;
 
     }
 
-    public String SearchTerm(){
+    public String getSearchTerm(){
         return name;
     }
 

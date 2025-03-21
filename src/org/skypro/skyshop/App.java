@@ -1,11 +1,12 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.basket.BestResultNotFound;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.basket.SearchEngine;
 import org.skypro.skyshop.product.*;
 
 public class App {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Product[] listOfProducts = {new SimpleProduct("морковь", 40), new DiscountedProduct("огурец", 50, (byte) 20), new FixPriceProduct("молоко")};
 
         Article bigCup = new Article("Пол-литровая кружка", "Она настолько большая, что вы в ней утоните!!");
@@ -36,7 +37,7 @@ public class App {
 
         for (Searchable i : searchEngine.search("ре")){
             if (i != null){
-                System.out.println(i.SearchTerm());
+                System.out.println(i.getSearchTerm());
             }
         }
 
@@ -44,7 +45,7 @@ public class App {
 
         for (Searchable i : searchEngine.search("б")){
             if (i != null){
-                System.out.println(i.SearchTerm());
+                System.out.println(i.getSearchTerm());
             }
         }
 
@@ -52,8 +53,40 @@ public class App {
 
         for (Searchable i : searchEngine.search("ко")){
             if (i != null){
-                System.out.println(i.SearchTerm());
+                System.out.println(i.getSearchTerm());
             }
+        }
+
+        try {
+            SimpleProduct test = new SimpleProduct(null, 1);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        try {
+            SimpleProduct test = new SimpleProduct("", 1);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        try {
+            SimpleProduct test = new SimpleProduct("null", 0);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        try {
+            DiscountedProduct test = new DiscountedProduct("nlul", 1, (byte) 101);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
+        System.out.println(searchEngine.searchBest("ве"));
+
+        try {
+            System.out.println(searchEngine.searchBest("jk"));
+        }catch (BestResultNotFound e){
+            System.out.println(e);
         }
 
     }
