@@ -2,46 +2,38 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Searchable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchEngine {
 
-    Searchable[] massive;
+    List<Searchable> list = new ArrayList<>();
 
-    public SearchEngine(int zine) {
-        massive = new Searchable[zine];
-    }
 
-    public Searchable[] search(String request) {
-        byte i = 0;
-        Searchable[] result = new Searchable[5];
-        for (Searchable resource : massive) {
+
+    public ArrayList<Searchable> search(String request) {
+
+        ArrayList<Searchable> result = new ArrayList<>();
+        for (Searchable resource : list) {
             if (resource != null) {
                 if (resource.getSearchTerm().contains(request)) {
-                    result[i] = resource;
-                    i++;
+                    result.add(resource);
                 }
             }
-            if (i > 4) {
-                break;
-            }
+
         }
         return result;
     }
 
     public void add(Searchable searchable) {
-        for (int i = 0; i < massive.length; i++) {
-            if (massive[i] == null) {
-                massive[i] = searchable;
-                searchable = null;
-                break;
-            }
-        }
+        list.add(searchable);
     }
 
     public Searchable searchBest(String search) throws BestResultNotFound {
         int maxQuantity = 0;
 
         Searchable searchable = null;
-        for (Searchable resource : massive) {
+        for (Searchable resource : list) {
             if (resource != null) {
                 String str =  resource.getSearchTerm();
                 int localQuantity = 0;
