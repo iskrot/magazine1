@@ -5,6 +5,9 @@ import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.basket.SearchEngine;
 import org.skypro.skyshop.product.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class App {
     public static void main(String[] args) throws Exception {
         Product[] listOfProducts = {new SimpleProduct("морковь", 40), new DiscountedProduct("огурец", 50, (byte) 20), new FixPriceProduct("молоко")};
@@ -14,13 +17,14 @@ public class App {
         Article slippers = new Article("Эко тапки", "Сделано из бутылок. Спасайте природу вместе с нами!!");
 
         ProductBasket basket = new ProductBasket();
-        SearchEngine searchEngine = new SearchEngine(50);
+        SearchEngine searchEngine = new SearchEngine();
 
         basket.printBasket();
         for (byte i = 0; i < 6; i++){
             basket.addProduct(listOfProducts[(byte) (Math.random()*3)]);
             searchEngine.add(listOfProducts[(byte) (Math.random()*3)]);
         }
+
         searchEngine.add(bigCup);
         searchEngine.add(bucket);
         searchEngine.add(slippers);
@@ -88,6 +92,20 @@ public class App {
         }catch (BestResultNotFound e){
             System.out.println(e);
         }
+
+
+        for (byte i = 0; i < 6; i++){
+            basket.addProduct(listOfProducts[(byte) (Math.random()*3)]);
+            searchEngine.add(listOfProducts[(byte) (Math.random()*3)]);
+        }
+
+        System.out.println(basket.remove("молоко"));
+        basket.printBasket();
+        if (basket.remove("d").size() == 0){
+            System.out.println("Список пуст");
+        }
+        basket.printBasket();
+
 
     }
 }
