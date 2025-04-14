@@ -9,7 +9,6 @@ public class SearchEngine {
 
     List<Searchable> list = new ArrayList<>();
 
-    
 
     public ArrayList<Searchable> search(String request) {
 
@@ -29,14 +28,14 @@ public class SearchEngine {
         list.add(searchable);
     }
 
-    public  List searchBest(String search) throws BestResultNotFound {
+    public List searchBest(String search) throws BestResultNotFound {
         int maxQuantity = 0;
 
         List searchable = new ArrayList();
-        Map<Integer, Searchable> searchableMap = new TreeMap<>((c1,c2) -> Double.valueOf(1.0/c1).compareTo(Double.valueOf(1.0/c2)));
+        Map<Integer, Searchable> searchableMap = new TreeMap<>((c1, c2) -> Double.valueOf(1.0 / c1).compareTo(Double.valueOf(1.0 / c2)));
         for (Searchable resource : list) {
             if (resource != null) {
-                String str =  resource.getSearchTerm();
+                String str = resource.getSearchTerm();
                 int localQuantity = 0;
                 int index = 0;
                 int searchIndex = str.indexOf(search, index);
@@ -46,11 +45,11 @@ public class SearchEngine {
                     searchIndex = str.indexOf(search, index);
                 }
                 if (localQuantity > 0) {
-                    searchableMap.put(localQuantity,resource);
+                    searchableMap.put(localQuantity, resource);
                 }
             }
         }
-        if (searchableMap.get(1) == null){
+        if (searchableMap.get(1) == null) {
             throw new BestResultNotFound(search);
         }
         for (Map.Entry<Integer, Searchable> entry : searchableMap.entrySet()) {
