@@ -2,24 +2,14 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.Objects;
+import javax.swing.text.html.parser.Entity;
+import java.util.*;
 
 public class ProductBasket {
-    private Product[] productBasket = new Product[5];
+    private List<Product> productBasket = new ArrayList<>();
 
     public void addProduct(Product product) {
-
-        for (int i = 0; i < productBasket.length; i++) {
-            if (productBasket[i] == null) {
-                productBasket[i] = product;
-                product = null;
-                break;
-            }
-        }
-        if (product != null) {
-            System.out.println("Невозможно добавить продукт");
-        }
-
+        productBasket.add(product);
     }
 
     public int getPlaceBasket() {
@@ -56,7 +46,7 @@ public class ProductBasket {
         boolean availability = false;
         for (Product product : productBasket) {
             if (product != null) {
-                if (Objects.equals(product.getName(), name)) {
+                if (product.getName().equals(name)) {
                     availability = true;
                 }
             }
@@ -64,7 +54,20 @@ public class ProductBasket {
         return availability;
     }
 
+    public List<Product> remove(String name){
+        List<Product> getList = new ArrayList<>();
+        ListIterator<Product> iterator = productBasket.listIterator();
+        while (iterator.hasNext()){
+            Product product = iterator.next();
+            if (product.getName().equals(name)){
+                iterator.remove();
+                getList.add(product);
+            }
+        }
+        return getList;
+    }
+
     public void basketClear() {
-        productBasket = new Product[5];
+        productBasket.clear();
     }
 }
