@@ -85,7 +85,7 @@ public class App {
             System.out.println(e);
         }
 
-        System.out.println(searchEngine.searchBest("ве"));
+        System.out.println(searchEngine.searchBest("в"));
 
         try {
             System.out.println(searchEngine.searchBest("jk"));

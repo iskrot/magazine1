@@ -1,15 +1,15 @@
 package org.skypro.skyshop.basket;
 
+import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.Searchable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SearchEngine {
 
     List<Searchable> list = new ArrayList<>();
 
-
+    
 
     public ArrayList<Searchable> search(String request) {
 
@@ -29,10 +29,11 @@ public class SearchEngine {
         list.add(searchable);
     }
 
-    public Searchable searchBest(String search) throws BestResultNotFound {
+    public  List searchBest(String search) throws BestResultNotFound {
         int maxQuantity = 0;
 
-        Searchable searchable = null;
+        List searchable = new ArrayList();
+        Map<Integer, Searchable> searchableMap = new TreeMap<>((c1,c2) -> Double.valueOf(1.0/c1).compareTo(Double.valueOf(1.0/c2)));
         for (Searchable resource : list) {
             if (resource != null) {
                 String str =  resource.getSearchTerm();
@@ -44,13 +45,16 @@ public class SearchEngine {
                     index = searchIndex + search.length();
                     searchIndex = str.indexOf(search, index);
                 }
-                if (localQuantity > maxQuantity) {
-                    searchable = resource;
+                if (localQuantity > 0) {
+                    searchableMap.put(localQuantity,resource);
                 }
             }
         }
-        if (searchable == null){
+        if (searchableMap.get(1) == null){
             throw new BestResultNotFound(search);
+        }
+        for (Map.Entry<Integer, Searchable> entry : searchableMap.entrySet()) {
+            searchable.add(entry.getValue());
         }
         return searchable;
     }
