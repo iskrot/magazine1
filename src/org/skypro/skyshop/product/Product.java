@@ -2,7 +2,7 @@ package org.skypro.skyshop.product;
 
 import java.util.Objects;
 
-public abstract class Product extends NameInterface implements Searchable, Comparable{
+public abstract class Product extends AbstractName implements Searchable, Comparable{
     String type = "PRODUCT";
 
 
@@ -55,7 +55,7 @@ public abstract class Product extends NameInterface implements Searchable, Compa
     @Override
     public int compareTo(Object o) {
 
-        NameInterface product = (NameInterface) o;
+        AbstractName product = (AbstractName) o;
 
         if (name.length() == product.name.length()){
             return name.compareTo(product.name);

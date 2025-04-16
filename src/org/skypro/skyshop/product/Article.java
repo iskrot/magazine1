@@ -2,7 +2,7 @@ package org.skypro.skyshop.product;
 
 import java.util.Objects;
 
-public class Article extends NameInterface implements Searchable, Comparable {
+public class Article extends AbstractName implements Searchable, Comparable {
     String text;
     String type = "ARTICLE";
 
@@ -44,7 +44,7 @@ public class Article extends NameInterface implements Searchable, Comparable {
 
     @Override
     public int compareTo(Object o) {
-        NameInterface article = (NameInterface) o;
+        AbstractName article = (AbstractName) o;
 
         if (name.length() == article.name.length()){
             return name.compareTo(article.name);
