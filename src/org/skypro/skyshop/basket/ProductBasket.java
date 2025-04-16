@@ -6,17 +6,22 @@ import javax.swing.text.html.parser.Entity;
 import java.util.*;
 
 public class ProductBasket {
-    private List<Product> productBasket = new ArrayList<>();
+    private Map<String, ArrayList<Product>> productBasket = new HashMap<>();
 
     public void addProduct(Product product) {
-        productBasket.add(product);
+        ArrayList<Product> list = productBasket.getOrDefault(product.getName(), new ArrayList<Product>());
+        list.add(product);
+        productBasket.put(product.getName(), list);
     }
 
     public int getPlaceBasket() {
         int price = 0;
-        for (Product place : productBasket) {
-            if (place != null) {
-                price += place.getPrice();
+        for (Map.Entry<String, ArrayList<Product>> entry : productBasket.entrySet()) {
+            for (Product place : entry.getValue()) {
+                if (place != null) {
+                    price += place.getPrice();
+                }
+
             }
         }
         return price;
@@ -25,12 +30,14 @@ public class ProductBasket {
     public void printBasket() {
         boolean basketVacous = true;
         byte allIsSpecial = 0;
-        for (Product product : productBasket) {
-            if (product != null) {
-                basketVacous = false;
-                System.out.println(product.toString());
-                if (product.isSpecial()) {
-                    allIsSpecial++;
+        for (Map.Entry<String, ArrayList<Product>> entry : productBasket.entrySet()) {
+            for (Product product : entry.getValue()) {
+                if (product != null) {
+                    basketVacous = false;
+                    System.out.println(product.toString());
+                    if (product.isSpecial()) {
+                        allIsSpecial++;
+                    }
                 }
             }
         }
@@ -44,26 +51,18 @@ public class ProductBasket {
 
     public boolean productSearch(String name) {
         boolean availability = false;
-        for (Product product : productBasket) {
-            if (product != null) {
-                if (product.getName().equals(name)) {
-                    availability = true;
-                }
+        for (Map.Entry<String, ArrayList<Product>> entry : productBasket.entrySet()) {
+            if (entry.getKey().equals(name)) {
+                availability = true;
             }
         }
         return availability;
     }
 
-    public List<Product> remove(String name){
-        List<Product> getList = new ArrayList<>();
-        ListIterator<Product> iterator = productBasket.listIterator();
-        while (iterator.hasNext()){
-            Product product = iterator.next();
-            if (product.getName().equals(name)){
-                iterator.remove();
-                getList.add(product);
-            }
-        }
+    public List<Product> remove(String name) {
+
+        List<Product> getList = productBasket.getOrDefault(name, new ArrayList<>());
+        productBasket.remove(name);
         return getList;
     }
 
