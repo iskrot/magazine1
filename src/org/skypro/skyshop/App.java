@@ -28,6 +28,8 @@ public class App {
         searchEngine.add(bigCup);
         searchEngine.add(bucket);
         searchEngine.add(slippers);
+        searchEngine.add(slippers);
+        searchEngine.add(new Article("морковъ", "куда тверже обычной моркови"));
 
         basket.printBasket();
         System.out.println(basket.getPlaceBasket());
@@ -106,6 +108,8 @@ public class App {
         }
         basket.printBasket();
 
+
+        System.out.println(searchEngine.searchBest("морков"));
 
     }
 }

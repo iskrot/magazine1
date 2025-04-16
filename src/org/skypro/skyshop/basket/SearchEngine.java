@@ -7,7 +7,7 @@ import java.util.*;
 
 public class SearchEngine {
 
-    List<Searchable> list = new ArrayList<>();
+    Set<Searchable> list = new HashSet<>();
 
 
     public ArrayList<Searchable> search(String request) {
@@ -28,11 +28,10 @@ public class SearchEngine {
         list.add(searchable);
     }
 
-    public List searchBest(String search) throws BestResultNotFound {
+    public TreeSet searchBest(String search) throws BestResultNotFound {
         int maxQuantity = 0;
 
-        List searchable = new ArrayList();
-        Map<Integer, Searchable> searchableMap = new TreeMap<>((c1, c2) -> Double.valueOf(1.0 / c1).compareTo(Double.valueOf(1.0 / c2)));
+        TreeSet searchable = new TreeSet();
         for (Searchable resource : list) {
             if (resource != null) {
                 String str = resource.getSearchTerm();
@@ -45,16 +44,26 @@ public class SearchEngine {
                     searchIndex = str.indexOf(search, index);
                 }
                 if (localQuantity > 0) {
-                    searchableMap.put(localQuantity, resource);
+                    searchable.add(resource);
                 }
             }
         }
-        if (searchableMap.get(1) == null) {
+        if (searchable == null) {
             throw new BestResultNotFound(search);
-        }
-        for (Map.Entry<Integer, Searchable> entry : searchableMap.entrySet()) {
-            searchable.add(entry.getValue());
         }
         return searchable;
     }
+
+    public static class MyComparator implements Comparator<String> {
+        @Override
+        public int compare(String s1, String s2) {
+            if (s1.length() == s2.length()) {
+                return s2.compareTo(s1);
+            }
+            return s1.length()-s2.length();
+        }
+    }
 }
+
+
+
