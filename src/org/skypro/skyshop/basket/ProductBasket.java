@@ -4,6 +4,7 @@ import org.skypro.skyshop.product.Product;
 
 import javax.swing.text.html.parser.Entity;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class ProductBasket {
     private Map<String, ArrayList<Product>> productBasket = new HashMap<>();
@@ -15,48 +16,27 @@ public class ProductBasket {
     }
 
     public int getPlaceBasket() {
-        int price = 0;
-        for (Map.Entry<String, ArrayList<Product>> entry : productBasket.entrySet()) {
-            for (Product place : entry.getValue()) {
-                if (place != null) {
-                    price += place.getPrice();
-                }
+        return productBasket.values().stream().flatMap(Collection::stream).mapToInt(i -> i.getPrice()).sum();
 
-            }
-        }
-        return price;
     }
 
     public void printBasket() {
-        boolean basketVacous = true;
-        byte allIsSpecial = 0;
-        for (Map.Entry<String, ArrayList<Product>> entry : productBasket.entrySet()) {
-            for (Product product : entry.getValue()) {
-                if (product != null) {
-                    basketVacous = false;
-                    System.out.println(product.toString());
-                    if (product.isSpecial()) {
-                        allIsSpecial++;
-                    }
-                }
-            }
-        }
+        boolean basketVacous = productBasket.size() < 2;
+
+        byte allIsSpecial = (byte) productBasket.values().stream().flatMap(Collection::stream).filter(i -> i.isSpecial()).toList().size();
+
         if (basketVacous) {
             System.out.println("в корзине пусто");
         } else {
+            List<String> stream = productBasket.values().stream().flatMap(Collection::stream).map(i -> i.toString() + "\n").toList();
+            System.out.println(stream);
             System.out.println("Итого: " + getPlaceBasket());
             System.out.println("Специальных товаров: " + allIsSpecial);
         }
     }
 
     public boolean productSearch(String name) {
-        boolean availability = false;
-        for (Map.Entry<String, ArrayList<Product>> entry : productBasket.entrySet()) {
-            if (entry.getKey().equals(name)) {
-                availability = true;
-            }
-        }
-        return availability;
+        return productBasket.values().stream().flatMap(Collection::stream).filter(i -> i.getName().equals(name)).toList().size() > 1;
     }
 
     public List<Product> remove(String name) {
