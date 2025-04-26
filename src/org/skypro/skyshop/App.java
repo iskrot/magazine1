@@ -87,10 +87,10 @@ public class App {
             System.out.println(e);
         }
 
-        System.out.println(searchEngine.searchBest("в"));
+        System.out.println(searchEngine.search("в"));
 
         try {
-            System.out.println(searchEngine.searchBest("jk"));
+            System.out.println(searchEngine.search("jk"));
         }catch (BestResultNotFound e){
             System.out.println(e);
         }
@@ -109,7 +109,7 @@ public class App {
         basket.printBasket();
 
 
-        System.out.println(searchEngine.searchBest("морков"));
+        System.out.println(searchEngine.search("морков"));
 
     }
 }
